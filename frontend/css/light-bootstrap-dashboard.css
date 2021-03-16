@@ -1,0 +1,371 @@
+/* 
+=========================================================
+ Light Bootstrap Dashboard - v2.0.1
+=========================================================
+
+ Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard
+ Copyright 2019 Creative Tim (https://www.creative-tim.com)
+ Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE)
+
+ Coded by Creative Tim
+
+=========================================================
+
+ The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.   */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+.navbar,
+.brand,
+.btn-simple,
+.alert,
+a,
+.td-name,
+td,
+button.close {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 300;
+    margin: 30px 0 15px;
+}
+
+.text-info,
+.text-info:hover {
+    color: #1DC7EA !important;
+}
+
+.text-warning,
+.text-warning:hover {
+    color: #FF9500 !important;
+}
+
+.text-danger,
+.text-danger:hover {
+    color: #FF4A55 !important;
+}
+
+a {
+    color: #1DC7EA;
+}
+
+a:hover,
+a:focus {
+    color: #42d0ed;
+    text-decoration: none;
+}
+
+.table>tbody>tr .td-actions .btn {
+    -webkit-transition: all 150ms ease-in;
+    -moz-transition: all 150ms ease-in;
+    -o-transition: all 150ms ease-in;
+    -ms-transition: all 150ms ease-in;
+    transition: all 150ms ease-in;
+}
+
+.btn {
+    -webkit-transition: all 100ms ease-in;
+    -moz-transition: all 100ms ease-in;
+    -o-transition: all 100ms ease-in;
+    -ms-transition: all 100ms ease-in;
+    transition: all 100ms ease-in;
+}
+
+.fa {
+    width: 18px;
+    text-align: center;
+}
+
+.margin-top {
+    margin-top: 50px;
+}
+
+.main-panel {
+    background: rgba(203, 203, 210, 0.15);
+    position: relative;
+    float: right;
+    width: calc(100%);
+    min-height: 100%;
+}
+
+.main-panel>.content {
+    padding: 30px 15px;
+    min-height: calc(100% - 123px);
+}
+
+.main-panel>.footer {
+    border-top: 1px solid #e7e7e7;
+}
+
+.main-panel .navbar {
+    margin-bottom: 0;
+}
+
+.sidebar,
+.main-panel {
+    overflow: auto;
+    max-height: 100%;
+    height: 100%;
+    -webkit-transition-property: top, bottom;
+    transition-property: top, bottom;
+    -webkit-transition-duration: .2s, .2s;
+    transition-duration: .2s, .2s;
+    -webkit-transition-timing-function: linear, linear;
+    transition-timing-function: linear, linear;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* .btn {
+    border-width: 2px;
+    background-color: transparent;
+    font-weight: 400;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    padding: 8px 16px;
+    border-color: #888888;
+    color: #888888;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active {
+    background-color: transparent;
+    color: #777777;
+    border-color: #777777;
+}
+
+.btn.disabled,
+.btn.disabled:hover,
+.btn.disabled:focus,
+.btn.disabled:active,
+.btn:disabled {
+    background-color: transparent;
+    border-color: #888888;
+}
+
+.btn:hover,
+.btn:focus {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    outline: 0 !important;
+    box-shadow: none;
+}
+
+.btn.btn-icon {
+    padding: 8px;
+}
+
+.btn-simple {
+    border: 0;
+    font-size: 16px;
+    padding: 8px 16px;
+} */
+
+.btn-simple.btn-icon {
+    padding: 8px;
+}
+
+.alert {
+    border: 0;
+    border-radius: 0;
+    color: #FFFFFF;
+    padding: 10px 15px;
+    font-size: 14px;
+}
+
+.table .radio,
+.table .checkbox {
+    position: relative;
+    height: 20px;
+    display: block;
+    width: 20px;
+    padding: 0px 0px;
+    margin: 0px 5px;
+    text-align: center;
+}
+
+.table .radio .icons,
+.table .checkbox .icons {
+    left: 5px;
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+    padding: 12px 8px;
+    vertical-align: middle;
+}
+
+.table>thead>tr>th {
+    border-bottom-width: 1px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #9A9A9A;
+    font-weight: 400;
+    padding-bottom: 5px;
+    border-top: none !important;
+    border-bottom: none;
+    text-align: left !important;
+}
+
+.table .td-actions .btn {
+    opacity: 0.36;
+    filter: alpha(opacity=36);
+}
+
+.table .td-actions .btn.btn-xs {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.table .td-actions {
+    min-width: 90px;
+}
+
+.table>tbody>tr {
+    position: relative;
+}
+
+.table>tbody>tr:hover .td-actions .btn {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.table .btn:focus {
+    box-shadow: none !important;
+}
+
+.navbar {
+    border: 0;
+    font-size: 16px;
+    border-radius: 0;
+    min-height: 50px;
+    max-height: 61px;
+    background-color: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navbar .navbar-brand {
+    font-weight: 400;
+    margin: 5px 0px;
+    font-size: 20px;
+    color: #888888;
+}
+
+.navbar .navbar-brand:hover {
+    color: #5e5e5e;
+}
+
+.card {
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    margin-bottom: 30px;
+}
+
+.card .btn-hover {
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.card:hover .btn-hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.card .card-body {
+    padding: 15px 15px 10px 15px;
+}
+
+.card .card-header {
+    padding: 0px 15px 0;
+    background-color: #000000;
+    border-bottom: none !important;
+}
+
+.card .card-title {
+    margin: 0;
+    color: antiquewhite;
+    font-weight: 300;
+}
+
+.card .description {
+    font-size: 14px;
+    color: #333;
+}
+
+.card .card-footer {
+    padding-top: 0;
+    background-color: transparent;
+    line-height: 30px;
+    border-top: none !important;
+    font-size: 14px;
+}
+
+.card .card-footer .legend {
+    padding: 5px 0;
+}
+
+.card .card-footer hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.card .stats {
+    color: #a9a9a9;
+}
+
+.card .card-footer div {
+    display: inline-block;
+}
+
+.card .ct-chart {
+    margin: 30px 0 30px;
+    height: 245px;
+}
+
+.card .table tbody td:first-child,
+.card .table thead th:first-child {
+    padding-left: 15px;
+}
+
+.card .table tbody td:last-child,
+.card .table thead th:last-child {
+    padding-right: 15px;
+    display: inline-flex;
+}
+
+.card-stats .card-body {
+    padding: 15px 15px 0px;
+}
+
+.card-stats .card-footer {
+    padding: 0px 15px 10px 15px;
+}
+
+@media (min-width: 992px) {
+    .card form [class*="col-"] {
+        padding: 6px;
+    }
+    .card form [class*="col-"]:first-child {
+        padding-left: 15px;
+    }
+    .card form [class*="col-"]:last-child {
+        padding-right: 15px;
+    }
+}

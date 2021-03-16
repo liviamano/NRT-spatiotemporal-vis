@@ -1,0 +1,76 @@
+SELECT jsonb_build_object(
+               'type', 'FeatureCollection',
+               'features', jsonb_agg(features.feature)
+           ) as collection
+FROM (
+         SELECT jsonb_build_object(
+                        'type', 'Feature',
+                        'id', 1,
+                        'geometry', ST_AsGeoJSON(CAST(polygon AS geometry))::jsonb,
+                        'properties',
+                        json_build_object('name', name, 'date', date, 'o3value', o3value, 'o3quality', o3quality,
+                                          'no2value', no2value,
+                                          'no2quality', no2quality, 'so2value', so2value, 'so2quality', so2quality)
+                    ) AS feature
+         FROM (
+                  select s.polygon,
+                         m.name,
+                         m.date,
+                         m.o3value,
+                         m.no2value,
+                         m.so2value,
+                         m.o3quality,
+                         m.no2quality,
+                         m.so2quality
+                  from stuttgart_merge m
+                           join stuttgart s on m.name = s.name
+              ) inputs) features;
+
+
+
+SELECT jsonb_build_object('type', 'FeatureCollection','features', jsonb_agg(features.feature)) as collection
+FROM (SELECT jsonb_build_object(
+                     'type', 'Feature',
+                     'id', 1,
+                     'geometry', ST_AsGeoJSON(CAST(point AS geometry))::jsonb,
+                     'properties',
+                     json_build_object('name', name, 'date', date, 'so2value', so2value, 'so2quality', so2quality)) AS feature
+      FROM (select s.point,
+                   c.name,
+                   s.date,
+                   s.so2column as so2value,
+                   s.quality   as so2quality
+            from stuttgart_so2 s
+                     join stuttgart c on ST_Intersects(s.point, c.polygon)) inputs) features;
+
+SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(features.feature)) as collection
+FROM (SELECT jsonb_build_object(
+                     'type', 'Feature',
+                     'id', 1,
+                     'geometry', ST_AsGeoJSON(CAST(point AS geometry))::jsonb,
+                     'properties',
+                     json_build_object('name', name, 'date', date, 'no2value', no2value, 'no2quality', no2quality)) AS feature
+      FROM (select n.point,
+                   c.name,
+                   n.date,
+                   n.no2column as no2value,
+                   n.quality   as no2quality
+            from stuttgart_no2 n
+                     join stuttgart c on ST_Intersects(n.point, c.polygon)) inputs) features;
+
+
+SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(features.feature)) as collection
+FROM (SELECT jsonb_build_object(
+                     'type', 'Feature',
+                     'id', 1,
+                     'geometry', ST_AsGeoJSON(CAST(point AS geometry))::jsonb,
+                     'properties',
+                     json_build_object('name', name, 'date', date, 'o3value', o3value, 'o3quality', o3quality)
+                 ) AS feature
+      FROM (select o.point,
+                   c.name,
+                   o.date,
+                   o.o3column as o3value,
+                   o.quality  as o3quality
+            from stuttgart_o3 o
+                     join stuttgart c on ST_Intersects(o.point, c.polygon)) inputs) features;

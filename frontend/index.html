@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Satellite Project Mano</title>
+
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/select2/dist/js/select2.min.js"></script>
+    <script src="node_modules/d3/dist/d3.min.js"></script>
+    <script src="node_modules/d3-array/dist/d3-array.js"></script>
+    <script src="node_modules/d3-scale/dist/d3-scale.js"></script>
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+    <script src="node_modules/leaflet.sync/L.Map.Sync.js"></script>
+    <script src="node_modules/leaflet-easybutton/src/easy-button.js"></script>
+    <script src="node_modules/leaflet-search/dist/leaflet-search.src.js"></script>
+    <script src="node_modules/pace-js/pace.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="js/utils/static.js"></script>
+    <script src="js/utils/templates.js"></script>
+    <script src="js/utils/citySelection.js"></script>
+    <script src="js/utils/changeMapData.js"></script>
+    <script src="js/utils/Models.js"></script>
+    <script src="js/utils/utils.js"></script>
+    <script src="js/utils/leaflet-heat.js"></script>
+    <script src="js/data/factory.geojson"></script>
+    <script src="js/data/aerodrome.geojson"></script>
+    <script src="js/utils/circularHeatChart.js"></script>
+
+
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/leaflet-easybutton/src/easy-button.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="node_modules/leaflet-search/dist/leaflet-search.min.css">
+    <link rel="stylesheet" href="node_modules/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="node_modules/pace-js/themes/blue/pace-theme-loading-bar.css">
+    <link rel="stylesheet" href="css/slider.css">
+    <link rel="stylesheet" href="css/satellite-custom.css">
+    <link rel="stylesheet" href="css/light-bootstrap-dashboard.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="js/utils/circularSvg.css">
+
+</head>
+
+<body>
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 col-no-padding">
+                        <div class="card card-no-marging">
+                            <div class="card-body card-custom-padding" style="padding-top: 0;">
+                                <div id="container-1">
+                                    <div class="row" id="container-1-slider"></div>
+                                    <div id="initialMap"></div>
+                                </div>
+                                <div class="d-flex justify-content-center" style="position: relative;">
+                                    <button type="button" id="showHeatmap" class="btn btn-info btn-circle" style="margin-top: -10px; position: relative;">
+                                        <i class="fas fa-chevron-down"></i></button>
+                                </div>
+                                <div class="ct-chart" id="container-3">
+                                    <div id="heatmap"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-no-padding">
+                        <div class="card card-no-marging">
+                            <div class="card-body card-custom-padding" style="padding-top: 0;">
+                                <div class="ct-chart" id="container-2">
+                                    <div class="row" id="container-2-slider"></div>
+                                    <div id="initialMap2"></div>
+                                </div>
+                                <div class="d-flex justify-content-center" style="position: relative;">
+                                    <button type="button" id="showHeatmap2" class="btn btn-info btn-circle" style="margin-top: -10px; position: relative;">
+                                        <i class="fas fa-chevron-down"></i></button>
+                                </div>
+                                <div class="ct-chart" id="container-4">
+                                    <div id="heatmap2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Details</h6>
+                            </div>
+                            <div class="d-flex justify-content-end" style="position: relative;">
+                                <button type="button" id="showDetails" class="btn btn-info btn-circle" style="margin-top: -10px; position: relative;">
+                                    <i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div class="card-body card-custom-padding" id="detailsBody">
+                                <div class="row">
+                                    <div class="col-md-12" id="info-panel">
+                                        <div class="row">
+                                            <div class="col col-md-6">
+                                                <div class="d-block bg-info text-white">Selection <span id="dateSel"></span> </div>
+                                                <div class="d-block" id="detailCityName">Frankfurt</div>
+                                                <div class="d-block">AQI: <span id="aqiLabel"></span></div>
+                                                <div class="d-block">NO<sub>2</sub> <span id="no2Selection"></span><span>mol/m<sup>2</sup></span></div>
+                                                <div class="d-block">SO<sub>2</sub> <span id="so2Selection"></span><span>mol/m<sup>2</sup></span></div>
+                                            </div>
+                                            <div class="col col-md-6">
+                                                <div class="d-block bg-info text-white">Context</div>
+                                                <div class="d-block">
+                                                    <img src="images/icons/population.png" alt="population" width="30" height="30">
+                                                    <span id="populationNumber">300000</span>
+                                                </div>
+                                                <div class="d-block">
+                                                    <img src="images/icons/factory.png" alt="factories" width="30" height="30">
+                                                    <span id="factoryNumber">20</span>
+                                                </div>
+                                                <div class="d-block">
+                                                    <img src="images/icons/airport.png" alt="airport" width="30" height="30">
+                                                    <span id="airportNumber">3</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row">
+                                            <div class="col col-md-6">
+                                                <div class="d-block bg-info text-white">Population</div>
+                                                
+                                            </div>
+                                            <div class="col col-md-6">
+                                                
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="row" id="seqRecs" style="padding-left: 15px;">
+                                            <div><span>NO2:</span>
+                                                <svg width="400" height="40">
+                                                    <g id="no2SeqRec" transform="translate(0,10)"></g>
+                                                </svg>
+                                            </div>
+                                            <div><span>SO2:</span>
+                                                <svg width="400" height="40">
+                                                    <g id="so2SeqRec" transform="translate(0,10)"></g>
+                                                </svg>
+                                            </div>
+                                            <div><span>O3:</span>
+                                                <svg width="400" height="40">
+                                                    <g id="o3SeqRec" transform="translate(0,10)"></g>
+                                                </svg>
+                                            </div>
+                                        </div> -->
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col col-md-12">
+                                                <!-- <div class="d-block bg-info text-white">Anomalies</div> -->
+                                                <div class="d-block" id="anomalyList">
+                                                    <!-- <span id="anomalyDate">21.11.2020</span> | <span class="text-danger" id="anomalyValue">109 mol/m2 (no2)</span> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="anomChart"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Multi-Line</h6>
+                            </div>
+                            <div class="d-flex justify-content-end" style="position: relative;">
+                                <button type="button" id="showMultiLine" class="btn btn-info btn-circle" style="margin-top: -10px; position: relative;">
+                                    <i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div class="card-body card-custom-padding" id="multiLineBody" style="padding-top: 0;">
+                                <div class="row">
+                                    <div class="col col-md-4">
+                                        <div class="form-group" style="margin-bottom: 5px;">
+                                            <select id="multiLineCitySelect" class="calendar-cities form-control" name="calendarCity"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <select id="multiLineProductSelect" class="form-control">
+                                                <option value="no2">NO<sub>2</sub></option>
+                                                <option value="so2">SO<sub>2</sub></option>
+                                                <option value="o3">O<sub>3</sub></option>
+                                            </select>
+                                        </div>
+
+                                        <button data-toggle="popover" data-trigger="focus" title="Add city to chart" class="btn btn-info" id="addMulti"><i class="fas fa-plus"></i></i> </button>
+                                        <button class="btn btn-danger" id="clearMulti"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                    <div class="col col-md-8">
+                                        <table>
+                                            <thead>
+                                                <tr style=" background: gray; color: white;">
+                                                    <td colspan="1"><i class="far fa-calendar-alt"></i></td>
+                                                    <td colspan="2"><span id="selectRange"></span></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="multiLineLegend">
+
+                                            </tbody>
+                                        </table>
+                                        <!-- <div class="row" Date Selection:></div>
+                                        <div class="row" > -->
+                                        <!-- </div> -->
+                                    </div>
+                                    <!-- <div class="col col-md-1">
+                                        <button data-toggle="popover" data-trigger="focus" title="Add city to chart" class="btn btn-info" id="addMulti"><i class="fas fa-plus"></i></i> </button>
+                                        <button class="btn btn-danger" id="clearMulti"> <i class="fas fa-trash"></i> </button>
+                                    </div> -->
+                                    <div id="multi-line" style="padding-left: 15px;"></div>
+                                    <!-- <div class="d-flex justify-content-end" style="margin-bottom: 5px;">
+                                        <button class="btn btn-danger" id="clearMulti"><i class="fas fa-trash"></i></button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Calendar</h6>
+                            </div>
+                            <div class="d-flex justify-content-end" style="position: relative;">
+                                <button type="button" id="showCalendar" class="btn btn-info btn-circle" style="margin-top: -10px; position: relative;">
+                                        <i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div class="card-body card-custom-padding" id="calendarBody">
+                                <div class="row">
+                                    <div class="col col-md-8">
+                                        <select id="calendarCitySelect" class="calendar-cities form-control" name="calendarCity"></select>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <div class="form-check form-check-inline">
+                                            <label class="form-check-label" for="hideQuality">Hide quality</label>
+                                            <input class="form-check-input" type="checkbox" id="hideQuality" value="hide">
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-4">
+                                        <button data-toggle="popover" data-trigger="focus" title="Add city calendar" class="btn btn-info" id="addCalendar"><i class="fas fa-plus"></i></button>
+                                        <button class="btn btn-danger" id="clearCalendar">  <i class="fas fa-trash"></i> </button>
+                                    </div>
+                                </div>
+                                <div id="calendarContainer" class="padding-10-vertical">
+                                    <div id="CalendarScale" class="section row"></div>
+                                    <div id="CalendarScaleSo2" class="section row"></div>
+                                </div>
+                                <div id="key"></div>
+                                <div class="row">
+                                    <div id="circularSvg">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Actions</h6>
+                            </div>
+                            <div class="d-flex justify-content-end" style="position: relative;">
+                                <button type="button" id="showDownload" class="btn btn-info btn-circle" style="margin-top: -10px; position: relative;">
+                                    <i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <div class="card-body card-custom-padding" id="downloadBody">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input class="form-control" type="text" id="datepicker" placeholder="11/02/2020"></p>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button class="btn btn-danger" id="downloadButton">Download</button>
+                                        <span id="downloadStatus"></span>
+                                    </div>
+                                </div>
+                                <div class="card-footer card-custom-padding">
+                                    <div class="stats">
+                                        <i class="fa fa-history"></i> Last updated <span id="latestDate"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- <form class="form-inline my-2 my-lg-0">
+        <button id="compare" class="btn btn-outline-success my-2 my-sm-0" type="button">Compare</button>
+    </form> -->
+    <script>
+        paceOptions = {
+            restartOnPushState: true,
+            restartOnPushState: true,
+            elements: {
+                checkInterval: 100,
+                selectors: ['#downloadBody']
+            },
+        }
+    </script>
+
+    <script src="js/components/circular.js"></script>
+    <script src="js/components/map.js"></script>
+    <script src="js/components/sample.js"></script>
+    <script src="js/components/slider.js"></script>
+    <script src="js/components/stack-bar.js"></script>
+    <script src="js/components/statistic-vis.js"></script>
+    <script src="js/components/calendarMB.js"></script>
+    <script src="js/components/multi2.js"></script>
+    <script src="js/satellite-custom.js"></script>
+</body>
+
+</html>
